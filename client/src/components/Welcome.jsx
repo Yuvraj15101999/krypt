@@ -2,8 +2,9 @@ import { AiFillPlayCircle } from "react-icons/ai";
 import { SiEthereum } from "react-icons/si";
 import { BsInfoCircle } from "react-icons/bs";
 import { default as Loader } from "./Loader";
-import FormInput from "../FormInput";
+import FormInput from "./FormInput";
 import { useContext } from "react";
+import { TransactionContext } from "../../context/TransactionContext";
 
 const commonStyles =
   "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
@@ -57,7 +58,7 @@ const Welcome = () => {
               </div>
             </div>
           </div>
-          <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
+          <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center  blue-glassmorphism ">
             <FormInput
               placeholder={`Address to`}
               name={`addressTo`}
