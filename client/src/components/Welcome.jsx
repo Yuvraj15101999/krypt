@@ -5,13 +5,32 @@ import { default as Loader } from "./Loader";
 import FormInput from "./FormInput";
 import { useContext } from "react";
 import { TransactionContext } from "../../context/TransactionContext";
+import { addressShorter } from "../../utils/addressShorter";
 
 const commonStyles =
   "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
 const Welcome = () => {
-  const connectWallet = () => {};
-  const handleSubmit = ()=>{};
+  const handleSubmit = (e) => {
+    const { addressTo, amount, keyword, message } = formData;
+
+    e.preventDefault();
+
+    if (!addressTo || !amount || !keyword || !message) return;
+
+    sendTransaction();
+  };
+
+  const {
+    connectWallet,
+    currentAccount,
+    formData,
+    setFormData,
+    handleChange,
+    sendTransaction,
+    isLoading
+  } = useContext(TransactionContext);
+
   return (
     <div className="flex w-full justify-center items-center">
       <div className="flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4">
@@ -23,13 +42,18 @@ const Welcome = () => {
           <p className="text-left mt-5 text-white font-light md:w-9/12 w-11/12 text-base">
             Explore the Crypto World, buy ad sell crytocurrency on Krypto
           </p>
-          <button
-            type="button"
-            onClick={connectWallet}
-            className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"
-          >
-            <p className="text-white text-base font-semibold">Connect Wallet</p>
-          </button>
+          {!currentAccount && (
+            <button
+              type="button"
+              onClick={connectWallet}
+              className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"
+            >
+              <p className="text-white text-base font-semibold">
+                Connect Wallet
+              </p>
+            </button>
+          )}
+
           <div className="grid sm:grid-sm-3 grid-cols-3 w-full mt-10">
             <div className={`rounded-tl-2xl ${commonStyles}`}>Reliability</div>
             <div className={`${commonStyles}`}>Security</div>
@@ -50,7 +74,7 @@ const Welcome = () => {
               </div>
               <div>
                 <p className="text-white font-light text-sm">
-                  Component for the Eth Address needs to be created
+                  {addressShorter(currentAccount)}
                 </p>
                 <p className="text-white font-semibold text-lg mt-1">
                   Ethereum
@@ -62,29 +86,39 @@ const Welcome = () => {
             <FormInput
               placeholder={`Address to`}
               name={`addressTo`}
-              type={`text`}
-              handleChange={() => {}}
+              type='text'
+              handleChange={handleChange}
             />
             <FormInput
               placeholder={`Amount ETH`}
               name={`amount`}
-              type={`number`}
-              handleChange={() => {}}
+              type='number'
+              handleChange={handleChange}
             />
             <FormInput
               placeholder={`Keyword (GIF)`}
               name={`keyword`}
-              type={`text`}
-              handleChange={() => {}}
+              type='text'
+              handleChange={handleChange}
             />
             <FormInput
               placeholder={`Enter Message`}
               name={`message`}
-              type={`text`}
-              handleChange={() => {}}
+              type='text'
+              handleChange={handleChange}
             />
             <div className="h-[1px] w-full bg-gray-400 my-2"></div>
-            {false ? <Loader /> : <button type='button' onClick={handleSubmit} className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer hover:bg-[#2952e3]">Send Now</button>}
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <button
+                type="button"
+                onClick={handleSubmit}
+                className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer hover:bg-[#2952e3]"
+              >
+                Send Now
+              </button>
+            )}
           </div>
         </div>
       </div>

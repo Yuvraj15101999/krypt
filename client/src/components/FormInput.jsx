@@ -8,9 +8,9 @@ export default function FormInput({
     <input
       placeholder={placeholder}
       type={type}
-      step={`0.0001`}
+      step='0.0001'
       onChange={(e) => {handleChange(e,name)}}
-      className={`my-2 w-full rounded-full p-2 outline-none bg-tranparent  text-white border-none text-sm white-glassmorphism`}
+      className={`my-2 w-full  p-2 outline-none bg-transparent  text-white border-none text-sm white-glassmorphism`}
     />
   );
 }
